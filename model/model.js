@@ -12,7 +12,7 @@ const studentSchema = new mongoose.Schema({
     },
     score:{
         html:{
-            type: Number,
+            type: Number
         },
     javaScript:{
         type: Number

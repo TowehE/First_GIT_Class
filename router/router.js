@@ -6,7 +6,8 @@ const {
     createStudent,
     getAllStudent,
     getStudent,
-    updateStudent
+    updateStudent,
+    deleteStudent,
 }= require("../controller/controller");
 
 router.post("/create", createStudent)
@@ -15,6 +16,8 @@ router.get("/getall", getAllStudent)
 
 router.get("/getone/:studentId", getStudent)
 
-router.put("/update/:id", updateStudent)
+router.put("/update/:toweh", updateStudent)
+
+router.delete("/delete/:studentId", deleteStudent)
 
 module.exports = router;
