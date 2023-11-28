@@ -21,8 +21,8 @@ exports.createStudent = async(req,res)=>{
 } 
 }
 
-//get all student
 
+//get all students
 exports. getAllStudent = async(req,res)=>{
   try{
     const student = await studentModel.find()
@@ -32,7 +32,7 @@ exports. getAllStudent = async(req,res)=>{
     })
  }else{
     res.status(200).json({
-        message:"list of all students in this database",
+        message:`list of all ${student.length} students in this database`,
         data:student
     })
  }
@@ -43,13 +43,10 @@ exports. getAllStudent = async(req,res)=>{
 } 
 }
 
-
 // get a student
-
 exports.getStudent = async(req,res)=>{
   try{
     const studentId = req.params.studentId;
-  
     const student = await studentModel.findById(studentId);
  if(!student){
     res.status(404).json({
@@ -73,13 +70,39 @@ exports.updateStudent = async(req,res)=>{
     try{
     //track the user id
     const studentId = req.params.toweh;
-     
+    
+    // track student with the id gotten
+    const student = await studentModel.findById(studentId);
+    // check for error
+    if (!student) {
+      res.status(404).json({
+        message: `Student with id: ${studentId} is not found.`,
+      });
+      return; 
+      // Missing return statement added
+    }
+
+    // check for entity and replace with existing data
+    const scores = req.body.score ;
+
+    const prevScores = {
+      html: student.score.html,
+      javaScript: student.score.javaScript,
+      css: student.score.css,
+      node: student.score.node,
+    };
+
      
       //check for entity and replace with existing data
     const studentData ={
-            name:req.body.name || studentId.name,
-            stack:req.body.stack || studentId.stack,
-            score:req.body.score || studentId.score,
+            name:req.body.name || student.name,
+            stack:req.body.stack || student.stack,
+            score: {
+                html: scores.html || prevScores.html,
+                 javaScript: scores. javaScript || prevScores. javaScript,
+                css: scores.css || prevScores.css,
+                node: scores.node || prevScores.node,
+              },
            
         };
         
