@@ -89,7 +89,7 @@ exports.updateStudent = async(req,res)=>{
                  javaScript: req.body.score.javaScript || student.score.javaScript,
                 css: req.body.score.css || student.score.css,
                 node: req.body.score.node || student.score.node,
-               },
+              },
            
         };
         
@@ -148,3 +148,45 @@ return res.status(200).json({
    }
 
 
+
+
+   exports.isAdmin = async(req,res)=>{
+    try{
+        //track the user id
+    const adminId = req.params.adminId;
+    
+    // track admin with the id gotten
+    const admin = await studentModel.findById(adminId);
+    
+    // check for error
+    if (!admin) {
+      res.status(404).json({
+        message: `This is not an admin :${adminId}`,
+      });
+      return;
+    }
+
+      const updateAdmin = {
+    isAdmin:req.body.isAdmin||adminId.isAdmin,
+      }
+
+  const updatedAdmin = await studentModel.findByIdAndUpdate(
+    adminId, 
+   { isAdmin:true},
+    {new:true}
+  )
+   
+        res.status(200).json({
+            message: `Welcome ${adminId}`,
+            data: updatedAdmin,
+        })
+    
+    
+    
+    }catch(error){
+        res.status(500).json({
+            message:"error"
+ 
+    })
+}
+}

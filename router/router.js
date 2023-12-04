@@ -8,16 +8,21 @@ const {
     getStudent,
     updateStudent,
     deleteStudent,
+    isAdmin
 }= require("../controller/controller");
+const requestInfo = require("../middleware/middlewear");
 
-router.post("/create", createStudent)
 
-router.get("/getall", getAllStudent)
+router.post("/create", requestInfo , createStudent)
 
-router.get("/getone/:studentId", getStudent)
+router.get("/getall", requestInfo,getAllStudent)
 
-router.put("/update/:studentId", updateStudent)
+router.get("/getone/:studentId",requestInfo, getStudent)
 
-router.delete("/delete/:studentId", deleteStudent)
+router.put("/update/:studentId",requestInfo, updateStudent)
+
+router.delete("/delete/:studentId",requestInfo, deleteStudent)
+
+router.put("/isadmin/:adminId",requestInfo, isAdmin)
 
 module.exports = router;
