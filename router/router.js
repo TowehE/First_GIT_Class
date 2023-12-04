@@ -16,7 +16,7 @@ router.get("/getall", getAllStudent)
 
 router.get("/getone/:studentId", getStudent)
 
-router.put("/update/:toweh", updateStudent)
+router.put("/update/:studentId", updateStudent)
 
 router.delete("/delete/:studentId", deleteStudent)
 

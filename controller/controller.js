@@ -15,7 +15,7 @@ exports.createStudent = async(req,res)=>{
     })
  }
   }catch(error){
-    res.status(404).json({
+    res.status(500).json({
         mesaage:error
     })
 } 
@@ -69,7 +69,7 @@ exports.getStudent = async(req,res)=>{
 exports.updateStudent = async(req,res)=>{
     try{
     //track the user id
-    const studentId = req.params.toweh;
+    const studentId = req.params.studentId;
     
     // track student with the id gotten
     const student = await studentModel.findById(studentId);
@@ -78,38 +78,26 @@ exports.updateStudent = async(req,res)=>{
       res.status(404).json({
         message: `Student with id: ${studentId} is not found.`,
       });
-      return; 
-      // Missing return statement added
+
     }
-
-    // check for entity and replace with existing data
-    const scores = req.body.score ;
-
-    const prevScores = {
-      html: student.score.html,
-      javaScript: student.score.javaScript,
-      css: student.score.css,
-      node: student.score.node,
-    };
-
-     
       //check for entity and replace with existing data
     const studentData ={
             name:req.body.name || student.name,
             stack:req.body.stack || student.stack,
             score: {
-                html: scores.html || prevScores.html,
-                 javaScript: scores. javaScript || prevScores. javaScript,
-                css: scores.css || prevScores.css,
-                node: scores.node || prevScores.node,
-              },
+                html: req.body.score.html || student.score.html,
+                 javaScript: req.body.score.javaScript || student.score.javaScript,
+                css: req.body.score.css || student.score.css,
+                node: req.body.score.node || student.score.node,
+               },
            
         };
         
         //update the student
         const updatedStudent = await studentModel.findByIdAndUpdate(
             studentId, 
-            studentData,
+            studentData,    
+            
         
          {
                 new: true,
@@ -124,7 +112,8 @@ exports.updateStudent = async(req,res)=>{
                 message: `Student with id: ${studentId} has been updated`,
                 data:updatedStudent,
             });
-        }   
+        }  
+
 
     }catch(err){
         res.status(500).json({
@@ -147,7 +136,7 @@ if(!student){
     })
 }
 //delete the student
-await studentModel.findByIdAndDelete(student);
+await studentModel.findByIdAndDelete(studentId);
 return res.status(200).json({
     message:`student with id ${studentId} has been deleted`,
     data: student,
@@ -157,3 +146,5 @@ return res.status(200).json({
         console.log(error);
     }
    }
+
+
