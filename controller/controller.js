@@ -26,8 +26,8 @@ exports.createStudent = async(req,res)=>{
 exports. getAllStudent = async(req,res)=>{
   try{
     const student = await studentModel.find()
- if(student.length == 0 ){
-    res.status(200).json({
+ if(!student.length == 0 ){
+    res.status(404).json({
         message:"student database is empty"
     })
  }else{
