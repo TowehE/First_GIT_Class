@@ -2,17 +2,30 @@ const mongoose = require("mongoose")
 
 //create schema
 const studentSchema = new mongoose.Schema({
-    name:{
+    fullName:{
         type:String,
         required:true
     },
     stack:{
         type:String,
+        enum: ["backend", "frontend"],
         required:true
     },
     isAdmin:{
         type:Boolean,
-        default:false
+    },
+    email:{
+        type:String,
+        required:true
+    },
+    role:{
+        type: String,
+        enum: ["teacher", "student"],
+        required: true
+    },
+    password:{
+        type:String,
+        required:true
     },
     score:{
         html:{
@@ -28,6 +41,10 @@ const studentSchema = new mongoose.Schema({
         type: Number
     }
 
+    },
+    blacklist:{
+        type: Array,
+        default:[],
     }
 },{timestamps:true}
 )
